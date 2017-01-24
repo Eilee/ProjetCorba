@@ -6,6 +6,7 @@ public class regular_fileImpl extends regular_filePOA
 {
 	int current_offset;
 	String name;
+	String content;
 	
 	public regular_fileImpl(String n){
 		this.name = n;
