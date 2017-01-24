@@ -4,6 +4,7 @@ import org.omg.CORBA.*;
 import java.lang.*;
 
 
+
 public class regular_fileImpl extends regular_filePOA{
 
 	private String name;
@@ -11,6 +12,7 @@ public class regular_fileImpl extends regular_filePOA{
 
 	public regular_fileImpl(String n){
 		name = n;
+
 		offset = 0;
 
 	}
