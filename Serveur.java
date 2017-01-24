@@ -19,18 +19,18 @@ public class Serveur {
             poa.the_POAManager().activate();
 
             ////////////////////////////////////////////////////////////////
-	    directoryImpl dirImpl = new directoryImpl("racine",poa);
-            org.omg.CORBA.Object dir = poa.servant_to_reference(dirImpl);
+	      
 
 	    try {
-                String gestion_ref = orb.object_to_string(dir);
+            directoryImpl dirImpl = new directoryImpl("root",poa,".");
+            org.omg.CORBA.Object dir = poa.servant_to_reference(dirImpl);
+            /*    String gestion_ref = orb.object_to_string(dir);
                 String refFile = "gestion.ref";
                 PrintWriter out = new PrintWriter(new FileOutputStream(refFile));
                 out.println(gestion_ref);
-                out.close();
+                out.close();*/
             } catch (IOException ex) {
-                System.err.println(
-                    "Impossible d'ecrire la reference dans gestion.ref");
+                System.err.println("Impossible de creer le fichier 'root'");
                 System.exit(1);
             }
 
