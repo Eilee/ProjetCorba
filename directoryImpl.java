@@ -21,11 +21,11 @@ public class directoryImpl extends directoryPOA
     }
 
     public String name(){
-	return this.name;
+	   return this.name;
     }
 
     public int number_of_file(){
-	return this.number_of_file;
+	   return this.number_of_file;
     }
 
     public void open_regular_file(regular_fileHolder r, String name, mode m) throws invalid_type_file, no_such_file{
@@ -66,7 +66,7 @@ public class directoryImpl extends directoryPOA
     }
 
     public int list_files(file_listHolder l){
-	return 0;
+	   return 0;
     }
 
 }
