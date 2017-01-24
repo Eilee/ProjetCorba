@@ -17,6 +17,14 @@ public class directoryImpl extends directoryPOA
         alDir = new ArrayList<directoryImpl>();
     }
 
+    public String name(){
+	return this.name;
+    }
+
+    public int number_of_file(){
+	return this.number_of_file;
+    }
+
     public void open_regular_file(regular_fileHolder r, String name, mode m) throws invalid_type_file, no_such_file{
 
     }
