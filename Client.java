@@ -1,7 +1,10 @@
+package files;
+
 import org.omg.CORBA.*;
 import java.io.*;
 import java.lang.*;
 import java.util.*;
+
 
 public class Client {
     public static void main(String[] args) throws IOException {
@@ -12,10 +15,10 @@ public class Client {
         ORB orb = ORB.init(args, null);
 
         if(args.length!=0)
-        {
-        System.err.println("utilisation : pas de parametre ");
-        System.exit(1);
-        }
+            {
+            System.err.println("utilisation : pas de parametre ");
+            System.exit(1);
+            }
 
         ////////////////////////////////////////////////////
         // Recuperation de la reference d'objet du serveur
@@ -25,7 +28,7 @@ public class Client {
         // d'invoquer un service de nommage.
         ////////////////////////////////////////////////////
         String ior = null;
-/*
+
         try {
             String ref = "gestion.ref";
             FileInputStream file = new FileInputStream(ref);
@@ -37,7 +40,7 @@ public class Client {
                 ex.getMessage() + "'");
             System.exit(1);
         }
-*/
+
         ////////////////////////////////////////////////////
         // Construction d'une reference d'objet, non typee d'abord,
         // puis "cast" en une reference sur l'interface 
@@ -49,104 +52,27 @@ public class Client {
             System.err.println("Erreur sur string_to_object() ");
             throw new RuntimeException();
         }
-/*
-        gestionabonnes gestion = gestionabonnesHelper.narrow(obj);
 
-        if (gestion== null) {
+        directory dir = directoryHelper.narrow(obj);
+
+        if (dir== null) {
             System.err.println("Erreur sur narrow() ");
             throw new RuntimeException();
         }
-*/
+
         ////////////////////////////////////////////////////
         // Invocation du serveur
         ////////////////////////////////////////////////////
 
-	/*
-	while(true) 
-		{	
-		try
-			{
-      			System.out.println(" Que faire : 1- creation");
-                	System.out.println("             2- rechercher");
-               	 	System.out.println("             3- resilier");
-      			operation = br.readLine();
-      
+	Scanner sc = new Scanner(System.in);
+	String num;
 
-			// Creation d'un abonne
-			//
-      			if (operation.equals("1"))  
-				{
-				System.out.print("Numero = " );
-				numero = br.readLine();
-				System.out.print("Nom = " );
-				nom = br.readLine();
-				System.out.print("Prenom = " );
-				prenom = br.readLine();
-				System.out.print("Adresse -> Numero de rue : ");
-				adresse.numero = new Integer(br.readLine());
-				System.out.print("Adresse -> Rue : ");
-				adresse.rue = br.readLine();
-				System.out.print("Adresse -> Code Postal : ");
-				adresse.code_postal = new Integer(br.readLine());
-				System.out.print("Adresse -> Ville : ");
-				adresse.ville = br.readLine();
-				System.out.print("Abonnement : 1) Forfait 2) Consommation ");
-				switch(new Integer(br.readLine())) {
-				case 1:
-				    abonnement = type_abonnement.forfait;
-				    break;
-				case 2:
-				    abonnement = type_abonnement.consommation;
-				    break;
-				default:
-				    abonnement = type_abonnement.forfait;
-				}
-				Integer num = new Integer(numero);
-
-				gestion.creation_abonne(num.intValue() ,nom, prenom, adresse, abonnement, ref);
-				System.out.println("Creation abonne numero " + numero + ": abonne " + ref.value.nom_prenom());
-				}
-
-				// Recherche d'un abonne
-				//
-      			else	if (operation.equals("2"))  
-                			{
-					System.out.print("Numero = " );
-					numero = br.readLine();
-					Integer num = new Integer(numero);
-
-					gestion.rechercher_abonne(num.intValue() ,ref);
-					System.out.println("Numero " + numero + ": abonne " + ref.value.nom_prenom() + ": abonnement :" + ref.value.abonnement());
-                			}
-
-					// Resiliation d'un abonne
-					//
-      				else	if (operation.equals("3"))  
-                				{
-						System.out.print("Numero = " );
-						numero = br.readLine();
-						Integer num = new Integer(numero);
-
-						gestion.resilier_abonne(num.intValue());
-						System.out.println("Numero " + numero + " resilie");
-                				}
-					else System.out.println("  Saisir '1', '2'  ou '3'");
-			}
-      		catch(IOException ex)
-			{
-			System.out.println("Erreur lecture ");
-			System.exit(1);
-			}
-      		catch(numeroInconnu ex)
-			{
-			System.out.println("Exception numeroInconnu");
-			}
-      		catch(dejaExistant ex)
-			{
-			System.out.println("Exception dejaExistant");
-			}
-		}
-	*/
+	while(true) {	
+		System.out.println(" Que faire : 1- creation");
+        	System.out.println("             2- rechercher");
+       	 	System.out.println("             3- resilier");
+		num = sc.nextLine();
 	}
+    }
 }
 
