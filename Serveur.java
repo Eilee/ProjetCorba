@@ -19,7 +19,7 @@ public class Serveur {
             poa.the_POAManager().activate();
 
             ////////////////////////////////////////////////////////////////
-	    directoryImpl dirImpl = new directoryImpl(poa,"racine");
+	    directoryImpl dirImpl = new directoryImpl("racine",poa);
             org.omg.CORBA.Object dir = poa.servant_to_reference(dirImpl);
 
 	    try {

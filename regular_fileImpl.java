@@ -1,3 +1,5 @@
+package files;
+
 import org.omg.CORBA.*;
 import java.lang.*;
 
@@ -27,7 +29,7 @@ public class regular_fileImpl extends regular_filePOA{
 	public void open(mode m){
 		if(ferme){
 			ferme = false;
-			if(m.equals(mode.read_only))){
+			if(m.equals(mode.read_only)){
 				read = true;
 				write = false;
 			}else if(m.equals(mode.write_append)){

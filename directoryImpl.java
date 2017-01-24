@@ -1,11 +1,14 @@
+package files;
+
 import org.omg.CORBA.*;
+import org.omg.PortableServer.*;
 import java.lang.*;
 import java.util.*;
 
 public class directoryImpl extends directoryPOA
 {
     protected POA poa_;
-	private int number_of_file;
+    private int number_of_file;
     String name;
     ArrayList<regular_fileImpl> alFile;
     ArrayList<directoryImpl> alDir;
@@ -36,7 +39,7 @@ public class directoryImpl extends directoryPOA
     public void create_regular_file(regular_fileHolder r, String name) throws already_exist{
         try{
             regular_fileImpl newFile = new regular_fileImpl(name);
-            if(alFile.contains(newFile)){ throw already_exist();}
+            if(alFile.contains(newFile)) throw new already_exist();
             org.omg.CORBA.Object alloc = poa_.servant_to_reference(newFile);
             r.value = regular_fileHelper.narrow(alloc);
 
@@ -63,7 +66,7 @@ public class directoryImpl extends directoryPOA
     }
 
     public int list_files(file_listHolder l){
-
+	return 0;
     }
 
 }
