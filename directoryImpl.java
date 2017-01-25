@@ -11,8 +11,8 @@ public class directoryImpl extends directoryPOA
     protected POA poa_;
     private int number_of_file;
     File currentDir;
-    String path;
-    String name;
+    String path = "";
+    String name = "";
     ArrayList<regular_file> alFile;
     ArrayList<directory> alDir;
 
@@ -20,14 +20,18 @@ public class directoryImpl extends directoryPOA
      *  Constructeur d'un nouveau directory avec en parametre le nom du directory, la POA et le chemin avec lequel le directory sera créé
     */
     public directoryImpl(String n, POA poa,String p){
-        this.path = p;
-        currentDir = new File(p);
-        currentDir.mkdir();
+        this.name = n;
+        this.path = p+"/"+this.name;
+        System.out.println(this.path);
+        currentDir = new File(this.path);
+        if(!currentDir.mkdir()){
+            System.out.println("pb mkdir");
+        }
         this.poa_ = poa;
         this.name = n;
         alFile =  new ArrayList<regular_file>();
         alDir = new ArrayList<directory>();
-        this.path +="/"+this.name;
+        
     }
 
     public String name(){
@@ -99,6 +103,7 @@ public class directoryImpl extends directoryPOA
         }
         return false;
     }
+
     public void create_regular_file(regular_fileHolder r, String name) throws already_exist{
         try{
           
@@ -132,6 +137,25 @@ public class directoryImpl extends directoryPOA
     }
 
     public void delete_file(String name) throws no_such_file{
+        if(regular_fileExist(name)){
+            Iterator<regular_file> iter = alFile.iterator();
+            while(iter.hasNext()){
+                regular_file rfTmp = iter.next();
+                if(rfTmp.name().equals(name)){
+                    //rfTmp.delete();
+                }
+            }
+        }else if(directoryExist(name)){
+            Iterator<directory> iter = alDir.iterator();
+            while(iter.hasNext()){
+                directory dirTmp = iter.next();
+                if(dirTmp.name().equals(name)){
+                   // dirTmp.delete();
+                }
+            }
+        }else{
+            throw new no_such_file();
+        }
     }
 
     public int list_files(file_listHolder l){
