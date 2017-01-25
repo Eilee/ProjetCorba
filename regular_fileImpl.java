@@ -11,11 +11,11 @@ public class regular_fileImpl extends regular_filePOA{
 	private String path;
 	private int offset;
 	private File f;
-	private FileInputSteam fis;
-	private FileOutputSteam fos;
+	private FileInputStream fis;
+	private FileOutputStream fos;
 	private boolean open;
 
-	public regular_fileImpl(String n, Strin p){
+	public regular_fileImpl(String n, String p){
 		name = n;
 		path = p;
 		offset = 0;
@@ -33,22 +33,26 @@ public class regular_fileImpl extends regular_filePOA{
 
 	public void open(mode m){
 		if(!open){
-			open = true;
-			if(m.equals(mode.read_only))){
-				fis = new FileInputSteam(f);
-				offset = 0;
-			}else if(m.equals(mode.write_append)){
-				fos = new FileOutputSteam(f);
-				//offset = taille fichier
-			}else if(m.equals(mode.write_trunc)){
-				fos = new FileOutputSteam(f);
-				offset = 0;
-				//vider le fichier
-			}else if(m.equals(mode.read_write)){
-				fis = new FileInputSteam(f);
-				fos = new FileOutputSteam(f);
-				offset = 0;
-			}		
+			try{
+				open = true;
+				if(m.equals(mode.read_only)){
+					fis = new FileInputStream(f);
+					offset = 0;
+				}else if(m.equals(mode.write_append)){
+					fos = new FileOutputStream(f);
+					//offset = taille fichier
+				}else if(m.equals(mode.write_trunc)){
+					fos = new FileOutputStream(f);
+					offset = 0;
+					//vider le fichier
+				}else if(m.equals(mode.read_write)){
+					fis = new FileInputStream(f);
+					fos = new FileOutputStream(f);
+					offset = 0;
+				}	
+			}catch(IOException e){
+				e.printStackTrace();
+			}	
 		}
 	}
 
@@ -57,25 +61,37 @@ public class regular_fileImpl extends regular_filePOA{
 		byte[] buf = new byte[1];
 		int nbRead = 0;
 		int n = 0;
-
-		while((n = fis.read(buf)) >= 0 && nbRead < size){
-			data.value += (char) buf[0];
-			nbRead++;
+		
+		try{
+			while((n = fis.read(buf,offset,1)) >= 0 && nbRead < size){
+				data.value += (char) buf[0];
+				nbRead++;
+				offset++;
+			}
+			if(nbRead < size)throw new end_of_file();
+		}catch(IOException e){
+			e.printStackTrace();
 		}
-		if(nbRead < size)throw new end_of_file();
 		
 		return nbRead;
 	}
 
     	public int write(int size, String data)throws invalid_operation{
 		if(fos == null)throw new invalid_operation();
-		int nbWrite = 0;
 
-    		return nbWrite;
+		byte[] buf = data.getBytes();
+		try{
+			fos.write(buf,offset,data.length());
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+
+    		return data.length();
 	}
 
     	public void seek(int new_offset)throws invalid_offset,invalid_operation{
-		
+		if(new_offset<0 || new_offset > f.length())throw new invalid_offset();
+		offset = new_offset;
 	}
 
     	public void close(){
