@@ -65,13 +65,59 @@ public class Client {
         ////////////////////////////////////////////////////
 
 	Scanner sc = new Scanner(System.in);
-	String num;
+	String name;
+	int num;
+	directory current = dir;
+	file_listHolder flH;
+	directory_entryHolder deH;
 
 	while(true) {	
-		System.out.println(" Que faire : 1- creation");
-        	System.out.println("             2- rechercher");
-       	 	System.out.println("             3- resilier");
-		num = sc.nextLine();
+		System.out.println("Répertoire courant : " + current.name());
+		/*current.list_files(flH);
+		while(flH.next_one(deH)){
+			System.out.print(deh.name);
+			if(deh.type == file_type.directory_type)System.out.print("|_|");
+			System.out.print("    ");
+		}*/
+		System.out.println(" Que faire : 1- Créer un fichier");
+        	System.out.println("             2- Créer un répertoire");
+       	 	System.out.println("             3- lire un fichier");
+       	 	System.out.println("             4- écrire dans un fichier");
+       	 	System.out.println("             5- accéder à un dossier");
+       	 	System.out.println("             6- supprimer un fichier");
+       	 	System.out.println("             7- supprimer un dossier");
+       	 	System.out.println("             8- revenir au dossier racine");
+       	 	System.out.println("             9- quitter");
+		num = Integer.parseInt(sc.nextLine());
+
+		switch(num){
+		    case 1:
+			name = "";
+			while(name.length()<5 || !name.substring(name.length()-4,name.length()).equals(".txt")){
+			    System.out.print("Nom du fichier (*.txt) : ");
+			    name = sc.nextLine();
+			}
+			//current.create_regular_file(regular_fileHolder r, String name)
+			break;
+		    case 2:
+			break;
+		    case 3:
+			break;
+		    case 4:
+			break;
+		    case 5:
+			break;
+		    case 6:
+			break;
+		    case 7:
+			break;
+		    case 8:
+			break;
+		    case 9:
+			break;
+		    default:
+			break;
+		}
 	}
     }
 }
