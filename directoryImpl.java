@@ -13,8 +13,8 @@ public class directoryImpl extends directoryPOA
     File currentDir;
     String path;
     String name;
-    ArrayList<regular_fileImpl> alFile;
-    ArrayList<directoryImpl> alDir;
+    ArrayList<regular_file> alFile;
+    ArrayList<directory> alDir;
 
     /*
      *  Constructeur d'un nouveau directory avec en parametre le nom du directory, la POA et le chemin avec lequel le directory sera créé
@@ -25,8 +25,8 @@ public class directoryImpl extends directoryPOA
         currentDir.mkdir();
         this.poa_ = poa;
         this.name = n;
-        alFile =  new ArrayList<regular_fileImpl>();
-        alDir = new ArrayList<directoryImpl>();
+        alFile =  new ArrayList<regular_file>();
+        alDir = new ArrayList<directory>();
         this.path +="/"+this.name;
     }
 
@@ -43,7 +43,14 @@ public class directoryImpl extends directoryPOA
     
     public void open_regular_file(regular_fileHolder r, String name, mode m) throws invalid_type_file, no_such_file{
         if(regular_fileExist(name)){
-
+            Iterator<regular_file> iter = alFile.iterator();
+            while(iter.hasNext()){
+                regular_file rfTmp = iter.next();
+                if(rfTmp.name().equals(name)){
+                    r.value = rfTmp;
+                    r.value.open(m);
+                }
+            }
         }else if(directoryExist(name)){
             throw new invalid_type_file();
         }else{
@@ -53,7 +60,13 @@ public class directoryImpl extends directoryPOA
 
     public void open_directory(directoryHolder f, String name) throws invalid_type_file, no_such_file{
         if(directoryExist(name)){
-
+            Iterator<directory> iter = alDir.iterator();
+            while(iter.hasNext()){
+                directory dirTmp = iter.next();
+                if(dirTmp.name().equals(name)){
+                    f.value = dirTmp;
+                }
+            }
         }else if(regular_fileExist(name)){
             throw new invalid_type_file();
         }else{
@@ -65,7 +78,7 @@ public class directoryImpl extends directoryPOA
      *  Parcour la liste de regular_fileImpl pour verifier si le fichier existe
     */
     public boolean regular_fileExist(String name){
-        Iterator<regular_fileImpl> iter = alFile.iterator();
+        Iterator<regular_file> iter = alFile.iterator();
         while(iter.hasNext()){
             if(iter.next().name().equals(name)){
                 return true;
@@ -78,7 +91,7 @@ public class directoryImpl extends directoryPOA
      *  Parcour la liste de directoryImpl pour verifier si le directory existe
     */
     public boolean directoryExist(String name){
-        Iterator<directoryImpl> iter = alDir.iterator();
+        Iterator<directory> iter = alDir.iterator();
         while(iter.hasNext()){
             if(iter.next().name().equals(name)){
                 return true;
@@ -107,7 +120,6 @@ public class directoryImpl extends directoryPOA
         try{
             if(directoryExist(name)){ throw new already_exist();}
             if(regular_fileExist(name)){ throw new already_exist();}
-
             /*
              *  Création et allocation du nouveau directory.
             */

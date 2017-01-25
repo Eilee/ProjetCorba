@@ -54,9 +54,19 @@ public class regular_filePOATie
 		return _delegate.read(size,data);
 	}
 
+	public java.lang.String name()
+	{
+		return _delegate.name();
+	}
+
 	public void seek(int new_offset) throws files.invalid_offset,files.invalid_operation
 	{
 _delegate.seek(new_offset);
+	}
+
+	public void open(files.mode m)
+	{
+_delegate.open(m);
 	}
 
 	public void close()

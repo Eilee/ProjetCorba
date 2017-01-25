@@ -8,8 +8,11 @@ module files {
   exception invalid_operation{};
   exception already_exist {};
 	
+  enum mode {read_only, write_append, write_trunc, read_write};
+  enum file_type {regular_file_type, directory_type};
 
   interface regular_file {
+    readonly attribute string name;
 
     long read(in long size, inout string data)
         raises (end_of_file,invalid_operation);
@@ -21,11 +24,10 @@ module files {
         raises (invalid_offset,invalid_operation);
 
     void close();
+
+    void open(in mode m);
   };
 
-
-  enum mode {read_only, write_append, write_trunc, read_write};
-  enum file_type {regular_file_type, directory_type};
 
   struct directory_entry {
     string name;
@@ -40,7 +42,7 @@ module files {
 
   interface directory;
   interface directory {
-
+    readonly attribute string name;
     readonly attribute long number_of_file;
 
     void open_regular_file(inout regular_file r, in string name, in mode m) 

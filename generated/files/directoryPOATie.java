@@ -64,6 +64,11 @@ public class directoryPOATie
 _delegate.delete_file(name);
 	}
 
+	public java.lang.String name()
+	{
+		return _delegate.name();
+	}
+
 	public void open_regular_file(files.regular_fileHolder r, java.lang.String name, files.mode m) throws files.no_such_file,files.invalid_type_file
 	{
 _delegate.open_regular_file(r,name,m);

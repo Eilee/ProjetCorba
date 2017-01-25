@@ -14,9 +14,11 @@ public abstract class regular_filePOA
 	static
 	{
 		m_opsHash.put ( "read", new java.lang.Integer(0));
-		m_opsHash.put ( "seek", new java.lang.Integer(1));
-		m_opsHash.put ( "close", new java.lang.Integer(2));
-		m_opsHash.put ( "write", new java.lang.Integer(3));
+		m_opsHash.put ( "_get_name", new java.lang.Integer(1));
+		m_opsHash.put ( "seek", new java.lang.Integer(2));
+		m_opsHash.put ( "open", new java.lang.Integer(3));
+		m_opsHash.put ( "close", new java.lang.Integer(4));
+		m_opsHash.put ( "write", new java.lang.Integer(5));
 	}
 	private String[] ids = {"IDL:files/regular_file:1.0"};
 	public files.regular_file _this()
@@ -61,7 +63,13 @@ public abstract class regular_filePOA
 			}
 				break;
 			}
-			case 1: // seek
+			case 1: // _get_name
+			{
+			_out = handler.createReply();
+			_out.write_string(name());
+				break;
+			}
+			case 2: // seek
 			{
 			try
 			{
@@ -81,13 +89,20 @@ public abstract class regular_filePOA
 			}
 				break;
 			}
-			case 2: // close
+			case 3: // open
+			{
+				files.mode _arg0=files.modeHelper.read(_input);
+				_out = handler.createReply();
+				open(_arg0);
+				break;
+			}
+			case 4: // close
 			{
 				_out = handler.createReply();
 				close();
 				break;
 			}
-			case 3: // write
+			case 5: // write
 			{
 			try
 			{

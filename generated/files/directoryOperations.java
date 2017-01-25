@@ -10,6 +10,7 @@ public interface directoryOperations
 {
 	/* constants */
 	/* operations  */
+	java.lang.String name();
 	int number_of_file();
 	void open_regular_file(files.regular_fileHolder r, java.lang.String name, files.mode m) throws files.no_such_file,files.invalid_type_file;
 	void open_directory(files.directoryHolder f, java.lang.String name) throws files.no_such_file,files.invalid_type_file;

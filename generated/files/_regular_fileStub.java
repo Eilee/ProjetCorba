@@ -75,6 +75,52 @@ public class _regular_fileStub
 
 	}
 
+	public java.lang.String name()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request("_get_name",true);
+				_is = _invoke(_os);
+				return _is.read_string();
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+
+		else
+		{
+		org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "_get_name", _opsClass);
+		if( _so == null )
+			throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			regular_fileOperations _localServant = (regular_fileOperations)_so.servant;
+			java.lang.String _result;
+		try
+		{
+			_result = _localServant.name();
+		}
+		finally
+		{
+			_servant_postinvoke(_so);
+		}
+		return _result;
+		}
+		}
+
+	}
+
 	public void seek(int new_offset) throws files.invalid_offset,files.invalid_operation
 	{
 		while(true)
@@ -118,6 +164,52 @@ public class _regular_fileStub
 			try
 			{
 			_localServant.seek(new_offset);
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return;
+		}
+
+		}
+
+	}
+
+	public void open(files.mode m)
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "open", true);
+				files.modeHelper.write(_os,m);
+				_is = _invoke(_os);
+				return;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "open", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			regular_fileOperations _localServant = (regular_fileOperations)_so.servant;
+			try
+			{
+			_localServant.open(m);
 			}
 			finally
 			{

@@ -162,6 +162,52 @@ public class _directoryStub
 
 	}
 
+	public java.lang.String name()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request("_get_name",true);
+				_is = _invoke(_os);
+				return _is.read_string();
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+
+		else
+		{
+		org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "_get_name", _opsClass);
+		if( _so == null )
+			throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			directoryOperations _localServant = (directoryOperations)_so.servant;
+			java.lang.String _result;
+		try
+		{
+			_result = _localServant.name();
+		}
+		finally
+		{
+			_servant_postinvoke(_so);
+		}
+		return _result;
+		}
+		}
+
+	}
+
 	public void open_regular_file(files.regular_fileHolder r, java.lang.String name, files.mode m) throws files.no_such_file,files.invalid_type_file
 	{
 		while(true)

@@ -16,10 +16,11 @@ public abstract class directoryPOA
 		m_opsHash.put ( "list_files", new java.lang.Integer(0));
 		m_opsHash.put ( "_get_number_of_file", new java.lang.Integer(1));
 		m_opsHash.put ( "delete_file", new java.lang.Integer(2));
-		m_opsHash.put ( "open_regular_file", new java.lang.Integer(3));
-		m_opsHash.put ( "create_regular_file", new java.lang.Integer(4));
-		m_opsHash.put ( "create_directory", new java.lang.Integer(5));
-		m_opsHash.put ( "open_directory", new java.lang.Integer(6));
+		m_opsHash.put ( "_get_name", new java.lang.Integer(3));
+		m_opsHash.put ( "open_regular_file", new java.lang.Integer(4));
+		m_opsHash.put ( "create_regular_file", new java.lang.Integer(5));
+		m_opsHash.put ( "create_directory", new java.lang.Integer(6));
+		m_opsHash.put ( "open_directory", new java.lang.Integer(7));
 	}
 	private String[] ids = {"IDL:files/directory:1.0"};
 	public files.directory _this()
@@ -71,7 +72,13 @@ public abstract class directoryPOA
 			}
 				break;
 			}
-			case 3: // open_regular_file
+			case 3: // _get_name
+			{
+			_out = handler.createReply();
+			_out.write_string(name());
+				break;
+			}
+			case 4: // open_regular_file
 			{
 			try
 			{
@@ -95,7 +102,7 @@ public abstract class directoryPOA
 			}
 				break;
 			}
-			case 4: // create_regular_file
+			case 5: // create_regular_file
 			{
 			try
 			{
@@ -113,7 +120,7 @@ public abstract class directoryPOA
 			}
 				break;
 			}
-			case 5: // create_directory
+			case 6: // create_directory
 			{
 			try
 			{
@@ -131,7 +138,7 @@ public abstract class directoryPOA
 			}
 				break;
 			}
-			case 6: // open_directory
+			case 7: // open_directory
 			{
 			try
 			{
