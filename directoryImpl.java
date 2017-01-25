@@ -90,7 +90,7 @@ public class directoryImpl extends directoryPOA
         try{
           
             if(regular_fileExist(name)){ throw new already_exist();}
-
+            if(directoryExist(name)){ throw new already_exist();}
             /*
              *  Création et allocation du nouveau fichier.
             */
@@ -106,6 +106,8 @@ public class directoryImpl extends directoryPOA
     public void create_directory(directoryHolder f, String name) throws already_exist{
         try{
             if(directoryExist(name)){ throw new already_exist();}
+            if(regular_fileExist(name)){ throw new already_exist();}
+
             /*
              *  Création et allocation du nouveau directory.
             */
