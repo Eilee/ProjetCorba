@@ -99,6 +99,7 @@ public class directoryImpl extends directoryPOA
         }
         return false;
     }
+
     public void create_regular_file(regular_fileHolder r, String name) throws already_exist{
         try{
           
@@ -132,6 +133,25 @@ public class directoryImpl extends directoryPOA
     }
 
     public void delete_file(String name) throws no_such_file{
+        if(regular_fileExist(name)){
+            Iterator<regular_file> iter = alFile.iterator();
+            while(iter.hasNext()){
+                regular_file rfTmp = iter.next();
+                if(rfTmp.name().equals(name)){
+                    //rfTmp.delete();
+                }
+            }
+        }else if(directoryExist(name)){
+            Iterator<directory> iter = alDir.iterator();
+            while(iter.hasNext()){
+                directory dirTmp = iter.next();
+                if(dirTmp.name().equals(name)){
+                    dirTmp.delete();
+                }
+            }
+        }else{
+            throw new no_such_file();
+        }
     }
 
     public int list_files(file_listHolder l){
