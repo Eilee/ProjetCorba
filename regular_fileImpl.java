@@ -20,7 +20,12 @@ public class regular_fileImpl extends regular_filePOA{
 		path = p;
 		offset = 0;
 		open = false;
-		f = new File(path+"/"+name);
+		try{
+		    f = new File(path+"/"+name);
+		    f.createNewFile();
+		}catch(IOException e){
+		    e.printStackTrace();
+		}
 	}
 
 	public String name(){
