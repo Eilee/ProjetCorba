@@ -1,7 +1,7 @@
 
 
 MODULE = files
-JAVA  = regular_fileImpl.java directoryImpl.java file_listImpl.java Serveur.java Client.java
+JAVA  = file_listImpl.java regular_fileImpl.java directoryImpl.java  Serveur.java Client.java
 IDL   = files.idl
 
 CLASS = $(JAVA:%.java=classes/$(MODULE)/%.class) 

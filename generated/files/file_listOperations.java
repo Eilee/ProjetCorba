@@ -11,4 +11,5 @@ public interface file_listOperations
 	/* constants */
 	/* operations  */
 	boolean next_one(files.directory_entryHolder e);
+	int size();
 }

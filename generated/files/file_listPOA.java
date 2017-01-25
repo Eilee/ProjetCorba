@@ -13,7 +13,8 @@ public abstract class file_listPOA
 	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
 	static
 	{
-		m_opsHash.put ( "next_one", new java.lang.Integer(0));
+		m_opsHash.put ( "size", new java.lang.Integer(0));
+		m_opsHash.put ( "next_one", new java.lang.Integer(1));
 	}
 	private String[] ids = {"IDL:files/file_list:1.0"};
 	public files.file_list _this()
@@ -35,7 +36,13 @@ public abstract class file_listPOA
 			throw new org.omg.CORBA.BAD_OPERATION(method + " not found");
 		switch ( opsIndex.intValue() )
 		{
-			case 0: // next_one
+			case 0: // size
+			{
+				_out = handler.createReply();
+				_out.write_long(size());
+				break;
+			}
+			case 1: // next_one
 			{
 				files.directory_entryHolder _arg0= new files.directory_entryHolder();
 				_arg0._read (_input);

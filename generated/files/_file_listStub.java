@@ -17,6 +17,52 @@ public class _file_listStub
 	}
 
 	public final static java.lang.Class _opsClass = files.file_listOperations.class;
+	public int size()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "size", true);
+				_is = _invoke(_os);
+				int _result = _is.read_long();
+				return _result;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "size", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			file_listOperations _localServant = (file_listOperations)_so.servant;
+			int _result;			try
+			{
+			_result = _localServant.size();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return _result;
+		}
+
+		}
+
+	}
+
 	public boolean next_one(files.directory_entryHolder e)
 	{
 		while(true)

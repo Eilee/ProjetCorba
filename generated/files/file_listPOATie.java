@@ -49,6 +49,11 @@ public class file_listPOATie
 			return super._default_POA();
 		}
 	}
+	public int size()
+	{
+		return _delegate.size();
+	}
+
 	public boolean next_one(files.directory_entryHolder e)
 	{
 		return _delegate.next_one(e);

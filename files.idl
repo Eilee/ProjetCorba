@@ -37,6 +37,7 @@ module files {
 
   interface file_list {
     boolean next_one(inout directory_entry e);
+    long size();
   };
 
 

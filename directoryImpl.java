@@ -135,7 +135,9 @@ public class directoryImpl extends directoryPOA
     }
 
     public int list_files(file_listHolder l){
-	   return 0;
+        file_listImpl flTmp = new file_listImpl(alFile,alDir);
+        l.value = file_listHelper.narrow(flTmp);
+	   return l.value.size();
     }
 
 }
