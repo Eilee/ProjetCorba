@@ -21,7 +21,8 @@ public class directoryImpl extends directoryPOA
     */
     public directoryImpl(String n, POA poa,String p){
         this.path = p;
-        currentDir = new File(p).mkdir();
+        currentDir = new File(p);
+        currentDir.mkdir();
         this.poa_ = poa;
         this.name = n;
         alFile =  new ArrayList<regular_fileImpl>();
@@ -39,26 +40,57 @@ public class directoryImpl extends directoryPOA
     public int number_of_file(){
 	   return this.number_of_file;
     }
-
+    
     public void open_regular_file(regular_fileHolder r, String name, mode m) throws invalid_type_file, no_such_file{
+        if(regular_fileExist(name)){
 
+        }else if(directoryExist(name)){
+            throw new invalid_type_file();
+        }else{
+            throw new no_such_file();
+        }
     }
 
     public void open_directory(directoryHolder f, String name) throws invalid_type_file, no_such_file{
+        if(directoryExist(name)){
 
+        }else if(regular_fileExist(name)){
+            throw new invalid_type_file();
+        }else{
+            throw new no_such_file();
+        }
     }
 
+    /*
+     *  Parcour la liste de regular_fileImpl pour verifier si le fichier existe
+    */
+    public boolean regular_fileExist(String name){
+        Iterator<regular_fileImpl> iter = alFile.iterator();
+        while(iter.hasNext()){
+            if(iter.next().name().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+     *  Parcour la liste de directoryImpl pour verifier si le directory existe
+    */
+    public boolean directoryExist(String name){
+        Iterator<directoryImpl> iter = alDir.iterator();
+        while(iter.hasNext()){
+            if(iter.next().name().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
     public void create_regular_file(regular_fileHolder r, String name) throws already_exist{
         try{
-            /*
-             *  Parcour la liste de regular_fileImpl pour verifier que le fichier n'est pas déja existant
-            */
-            Iterator<regular_fileImpl> iter = alFile.iterator();
-            while(iter.hasNext()){
-                if(iter.next().name().equals(name)){
-                    throw new already_exist();
-                }
-            }
+          
+            if(regular_fileExist(name)){ throw new already_exist();}
+
             /*
              *  Création et allocation du nouveau fichier.
             */
@@ -73,17 +105,9 @@ public class directoryImpl extends directoryPOA
 
     public void create_directory(directoryHolder f, String name) throws already_exist{
         try{
+            if(directoryExist(name)){ throw new already_exist();}
             /*
-             *  Parcour la liste de directoryImpl pour verifier que le fichier n'est pas déja existant
-            */
-            Iterator<directoryImpl> iter = alDir.iterator();
-            while(iter.hasNext()){
-                if(iter.next().name().equals(name)){
-                    throw new already_exist();
-                }
-            }
-            /*
-             *  Création et allocation du nouveau direcory.
+             *  Création et allocation du nouveau directory.
             */
             directoryImpl newDir = new directoryImpl(name,poa_,this.path);
             org.omg.CORBA.Object alloc = poa_.servant_to_reference(newDir);

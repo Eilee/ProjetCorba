@@ -29,10 +29,10 @@ public class Serveur {
                 PrintWriter out = new PrintWriter(new FileOutputStream(refFile));
                 out.println(gestion_ref);
                 out.close();*/
-            } catch (IOException ex) {
-                System.err.println("Impossible de creer le fichier 'root'");
-                System.exit(1);
-            }
+        }catch(IOException ex) {
+            System.err.println("Impossible de creer le fichier 'root'");
+            System.exit(1);
+        }
 
             System.out.println("Le serveur est pret ");
 
