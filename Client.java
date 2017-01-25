@@ -70,7 +70,8 @@ public class Client {
 	directory current = dir;
 	file_listHolder flH = new file_listHolder();
 	directory_entryHolder deH = new directory_entryHolder();
-	regular_fileHolder rflH = new regular_fileHolder();
+	directoryHolder dH = new directoryHolder();
+	regular_fileHolder rfH = new regular_fileHolder();
 
 	try{
 	    while(!exit) {	
@@ -98,11 +99,15 @@ public class Client {
 		    	System.out.print("Nom du fichier (*.txt) : ");
 		    	name = sc.nextLine();
 		    }
-		    current.create_regular_file(rflH,name);
+		    current.create_regular_file(rfH,name);
 		}else if(num.equals("2")){
-		    
+		    System.out.print("Nom du répertoire : ");
+		    name = sc.nextLine();
+		    current.create_directory(dH,name);
 		}else if(num.equals("3")){
-		    
+		    System.out.print("Nom du fichier : ");
+		    name = sc.nextLine();
+		    current.open_regular_file(rfH,name,mode.read_only);
 		}else if(num.equals("4")){
 		    
 		}else if(num.equals("5")){
@@ -117,16 +122,16 @@ public class Client {
 		    exit = true;
 		}
 	    }
-	/*}catch(no_such_file e){
-		System.out.println("Erreur : no_such_file");
-	}catch(end_of_file e){
+	/*}catch(end_of_file e){
 		System.out.println("Erreur : end_of_file");
 	}catch(invalid_offset e){
 		System.out.println("Erreur : invalid_offset");
-	}catch(invalid_type_file e){
-		System.out.println("Erreur : invalid_type_file");
 	}catch(invalid_operation e){
 		System.out.println("Erreur : invalid_operation");*/
+	}catch(invalid_type_file e){
+		System.out.println("Erreur : invalid_type_file");
+	}catch(no_such_file e){
+		System.out.println("Erreur : no_such_file");
 	}catch(already_exist e){
 		System.out.println("Erreur : already_exist");
 	}
