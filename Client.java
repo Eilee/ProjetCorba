@@ -66,12 +66,14 @@ public class Client {
 
 	Scanner sc = new Scanner(System.in);
 	boolean exit = false;
-	String name,num;
+	int nb;
+	String name,num,contenu;
 	directory current = dir;
 	file_listHolder flH = new file_listHolder();
 	directory_entryHolder deH = new directory_entryHolder();
 	directoryHolder dH = new directoryHolder();
 	regular_fileHolder rfH = new regular_fileHolder();
+	StringHolder sH = new StringHolder();
 
 	try{
 	    while(!exit) {	
@@ -87,10 +89,9 @@ public class Client {
        	 	System.out.println("             3- lire un fichier");
        	 	System.out.println("             4- écrire dans un fichier");
        	 	System.out.println("             5- accéder à un dossier");
-       	 	System.out.println("             6- supprimer un fichier");
-       	 	System.out.println("             7- supprimer un dossier");
-       	 	System.out.println("             8- revenir au dossier racine");
-       	 	System.out.println("             9- quitter");
+       	 	System.out.println("             6- supprimer un fichier ou un dossier");
+       	 	System.out.println("             7- revenir au dossier racine");
+       	 	System.out.println("             8- quitter");
 		num = sc.nextLine();
 
 		if(num.equals("1")){
@@ -100,34 +101,53 @@ public class Client {
 		    	name = sc.nextLine();
 		    }
 		    current.create_regular_file(rfH,name);
+
 		}else if(num.equals("2")){
 		    System.out.print("Nom du répertoire : ");
 		    name = sc.nextLine();
 		    current.create_directory(dH,name);
+
 		}else if(num.equals("3")){
 		    System.out.print("Nom du fichier : ");
 		    name = sc.nextLine();
 		    current.open_regular_file(rfH,name,mode.read_only);
+		    nb = rfH.value.read(256, sH);
+		    System.out.println(nb+" caractères lues : "+sH.value);
+
 		}else if(num.equals("4")){
-		    
+		    System.out.print("Nom du fichier : ");
+		    name = sc.nextLine();
+		    System.out.print("Texte à écrire dans le fichier : ");
+		    contenu = sc.nextLine();
+		    current.open_regular_file(rfH,name,mode.write_append);
+		    nb = rfH.value.write(256,contenu);
+		    System.out.println(nb+" caractères écrits : "+contenu);
+
 		}else if(num.equals("5")){
-		    
+		    System.out.print("Nom du dossier : ");
+		    name = sc.nextLine();
+		    current.open_directory(dH,name);
+		    current = dH.value;
+
 		}else if(num.equals("6")){
-		    
+		    System.out.print("Nom du fichier ou du dossier à supprimer : ");
+		    name = sc.nextLine();
+		    current.delete_file(name);
+
 		}else if(num.equals("7")){
-		    
+		    current = dir;
+
 		}else if(num.equals("8")){
-		    
-		}else if(num.equals("9")){
 		    exit = true;
+
 		}
 	    }
-	/*}catch(end_of_file e){
+	}catch(end_of_file e){
 		System.out.println("Erreur : end_of_file");
-	}catch(invalid_offset e){
-		System.out.println("Erreur : invalid_offset");
+	//}catch(invalid_offset e){
+	//	System.out.println("Erreur : invalid_offset");
 	}catch(invalid_operation e){
-		System.out.println("Erreur : invalid_operation");*/
+		System.out.println("Erreur : invalid_operation");
 	}catch(invalid_type_file e){
 		System.out.println("Erreur : invalid_type_file");
 	}catch(no_such_file e){

@@ -22,10 +22,9 @@ public class directoryImpl extends directoryPOA
     public directoryImpl(String n, POA poa,String p){
         this.name = n;
         this.path = p+"/"+this.name;
-        System.out.println(this.path);
         currentDir = new File(this.path);
         if(!currentDir.mkdir()){
-            System.out.println("pb mkdir");
+            System.out.println("Problème mkdir");
         }
         this.poa_ = poa;
         this.name = n;
@@ -114,7 +113,9 @@ public class directoryImpl extends directoryPOA
             */
             regular_fileImpl newFile = new regular_fileImpl(name,this.path);
             org.omg.CORBA.Object alloc = poa_.servant_to_reference(newFile);
-            r.value = regular_fileHelper.narrow(alloc);
+            regular_file rf = regular_fileHelper.narrow(alloc);
+	    r.value = rf;
+	    alFile.add(rf);
 
         }catch(Exception e){
             System.out.println(e);
