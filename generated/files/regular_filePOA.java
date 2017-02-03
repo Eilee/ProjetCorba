@@ -13,12 +13,13 @@ public abstract class regular_filePOA
 	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
 	static
 	{
-		m_opsHash.put ( "read", new java.lang.Integer(0));
-		m_opsHash.put ( "_get_name", new java.lang.Integer(1));
-		m_opsHash.put ( "seek", new java.lang.Integer(2));
-		m_opsHash.put ( "open", new java.lang.Integer(3));
-		m_opsHash.put ( "close", new java.lang.Integer(4));
-		m_opsHash.put ( "write", new java.lang.Integer(5));
+		m_opsHash.put ( "delete", new java.lang.Integer(0));
+		m_opsHash.put ( "read", new java.lang.Integer(1));
+		m_opsHash.put ( "_get_name", new java.lang.Integer(2));
+		m_opsHash.put ( "seek", new java.lang.Integer(3));
+		m_opsHash.put ( "open", new java.lang.Integer(4));
+		m_opsHash.put ( "close", new java.lang.Integer(5));
+		m_opsHash.put ( "write", new java.lang.Integer(6));
 	}
 	private String[] ids = {"IDL:files/regular_file:1.0"};
 	public files.regular_file _this()
@@ -40,7 +41,13 @@ public abstract class regular_filePOA
 			throw new org.omg.CORBA.BAD_OPERATION(method + " not found");
 		switch ( opsIndex.intValue() )
 		{
-			case 0: // read
+			case 0: // delete
+			{
+				_out = handler.createReply();
+				delete();
+				break;
+			}
+			case 1: // read
 			{
 			try
 			{
@@ -63,13 +70,13 @@ public abstract class regular_filePOA
 			}
 				break;
 			}
-			case 1: // _get_name
+			case 2: // _get_name
 			{
 			_out = handler.createReply();
 			_out.write_string(name());
 				break;
 			}
-			case 2: // seek
+			case 3: // seek
 			{
 			try
 			{
@@ -89,20 +96,20 @@ public abstract class regular_filePOA
 			}
 				break;
 			}
-			case 3: // open
+			case 4: // open
 			{
 				files.mode _arg0=files.modeHelper.read(_input);
 				_out = handler.createReply();
 				open(_arg0);
 				break;
 			}
-			case 4: // close
+			case 5: // close
 			{
 				_out = handler.createReply();
 				close();
 				break;
 			}
-			case 5: // write
+			case 6: // write
 			{
 			try
 			{

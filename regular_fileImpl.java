@@ -116,4 +116,9 @@ public class regular_fileImpl extends regular_filePOA{
 		}	
 	}
 
+    	public void delete(){
+		close();
+		f.delete();
+    	}
+
 }

@@ -26,6 +26,8 @@ module files {
     void close();
 
     void open(in mode m);
+
+    void delete();
   };
 
 
@@ -64,6 +66,8 @@ module files {
     long list_files(inout file_list l);
     
     void init();
+
+    void delete();
   };
 
 };

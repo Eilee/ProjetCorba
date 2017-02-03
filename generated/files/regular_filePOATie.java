@@ -49,6 +49,11 @@ public class regular_filePOATie
 			return super._default_POA();
 		}
 	}
+	public void delete()
+	{
+_delegate.delete();
+	}
+
 	public int read(int size, org.omg.CORBA.StringHolder data) throws files.invalid_operation,files.end_of_file
 	{
 		return _delegate.read(size,data);

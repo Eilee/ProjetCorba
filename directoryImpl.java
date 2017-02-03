@@ -168,7 +168,8 @@ public class directoryImpl extends directoryPOA
             while(iter.hasNext()){
                 regular_file rfTmp = iter.next();
                 if(rfTmp.name().equals(name)){
-                    //rfTmp.delete();
+                    rfTmp.delete();
+		    alFile.remove(rfTmp);
                 }
             }
         }else if(directoryExist(name)){
@@ -176,7 +177,8 @@ public class directoryImpl extends directoryPOA
             while(iter.hasNext()){
                 directory dirTmp = iter.next();
                 if(dirTmp.name().equals(name)){
-                   // dirTmp.delete();
+                   dirTmp.delete();
+		   alDir.remove(dirTmp);
                 }
             }
         }else{
@@ -193,6 +195,10 @@ public class directoryImpl extends directoryPOA
             System.out.println(e);
         } 
 	return l.value.size();
+    }
+
+    public void delete(){
+	currentDir.delete();
     }
 
 }

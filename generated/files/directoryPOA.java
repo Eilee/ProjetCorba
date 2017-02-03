@@ -16,12 +16,13 @@ public abstract class directoryPOA
 		m_opsHash.put ( "delete_file", new java.lang.Integer(0));
 		m_opsHash.put ( "open_directory", new java.lang.Integer(1));
 		m_opsHash.put ( "_get_name", new java.lang.Integer(2));
-		m_opsHash.put ( "_get_number_of_file", new java.lang.Integer(3));
-		m_opsHash.put ( "list_files", new java.lang.Integer(4));
-		m_opsHash.put ( "open_regular_file", new java.lang.Integer(5));
-		m_opsHash.put ( "init", new java.lang.Integer(6));
-		m_opsHash.put ( "create_regular_file", new java.lang.Integer(7));
-		m_opsHash.put ( "create_directory", new java.lang.Integer(8));
+		m_opsHash.put ( "delete", new java.lang.Integer(3));
+		m_opsHash.put ( "_get_number_of_file", new java.lang.Integer(4));
+		m_opsHash.put ( "list_files", new java.lang.Integer(5));
+		m_opsHash.put ( "open_regular_file", new java.lang.Integer(6));
+		m_opsHash.put ( "init", new java.lang.Integer(7));
+		m_opsHash.put ( "create_regular_file", new java.lang.Integer(8));
+		m_opsHash.put ( "create_directory", new java.lang.Integer(9));
 	}
 	private String[] ids = {"IDL:files/directory:1.0"};
 	public files.directory _this()
@@ -87,13 +88,19 @@ public abstract class directoryPOA
 			_out.write_string(name());
 				break;
 			}
-			case 3: // _get_number_of_file
+			case 3: // delete
+			{
+				_out = handler.createReply();
+				delete();
+				break;
+			}
+			case 4: // _get_number_of_file
 			{
 			_out = handler.createReply();
 			_out.write_long(number_of_file());
 				break;
 			}
-			case 4: // list_files
+			case 5: // list_files
 			{
 				files.file_listHolder _arg0= new files.file_listHolder();
 				_arg0._read (_input);
@@ -102,7 +109,7 @@ public abstract class directoryPOA
 				files.file_listHelper.write(_out,_arg0.value);
 				break;
 			}
-			case 5: // open_regular_file
+			case 6: // open_regular_file
 			{
 			try
 			{
@@ -126,13 +133,13 @@ public abstract class directoryPOA
 			}
 				break;
 			}
-			case 6: // init
+			case 7: // init
 			{
 				_out = handler.createReply();
 				init();
 				break;
 			}
-			case 7: // create_regular_file
+			case 8: // create_regular_file
 			{
 			try
 			{
@@ -150,7 +157,7 @@ public abstract class directoryPOA
 			}
 				break;
 			}
-			case 8: // create_directory
+			case 9: // create_directory
 			{
 			try
 			{

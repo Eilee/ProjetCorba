@@ -16,4 +16,5 @@ public interface regular_fileOperations
 	void seek(int new_offset) throws files.invalid_offset,files.invalid_operation;
 	void close();
 	void open(files.mode m);
+	void delete();
 }

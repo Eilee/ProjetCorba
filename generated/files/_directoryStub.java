@@ -171,6 +171,51 @@ public class _directoryStub
 
 	}
 
+	public void delete()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "delete", true);
+				_is = _invoke(_os);
+				return;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "delete", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			directoryOperations _localServant = (directoryOperations)_so.servant;
+			try
+			{
+			_localServant.delete();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return;
+		}
+
+		}
+
+	}
+
 	public int number_of_file()
 	{
 		while(true)

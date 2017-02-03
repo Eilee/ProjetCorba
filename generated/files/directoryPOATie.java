@@ -64,6 +64,11 @@ _delegate.open_directory(f,name);
 		return _delegate.name();
 	}
 
+	public void delete()
+	{
+_delegate.delete();
+	}
+
 	public int number_of_file()
 	{
 		return _delegate.number_of_file();
