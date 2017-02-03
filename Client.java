@@ -69,29 +69,40 @@ public class Client {
 	int nb;
 	String name,num,contenu;
 	directory current = dir;
+
 	file_listHolder flH = new file_listHolder();
+
 	directory_entryHolder deH = new directory_entryHolder();
+	deH.value = new directory_entry();
+	deH.value.type = file_type.regular_file_type;
+
 	directoryHolder dH = new directoryHolder();
+
 	regular_fileHolder rfH = new regular_fileHolder();
+
 	StringHolder sH = new StringHolder();
+	sH.value = new String("");
+	current.init();
 
 	try{
 	    while(!exit) {	
 		System.out.println("Répertoire courant : " + current.name());
-		/*current.list_files(flH);
-		while(flH.value.next_one(deH)){
+		nb = current.list_files(flH);
+		if(nb > 0){
+		    while(flH.value.next_one(deH)){
 			System.out.print(deH.value.name);
 			if(deH.value.type == file_type.directory_type)System.out.print("|_|");
 			System.out.print("    ");
-		}*/
-		System.out.println(" Que faire : 1- Créer un fichier");
-		System.out.println("             2- Créer un répertoire");
-       	 	System.out.println("             3- lire un fichier");
-       	 	System.out.println("             4- écrire dans un fichier");
-       	 	System.out.println("             5- accéder à un dossier");
-       	 	System.out.println("             6- supprimer un fichier ou un dossier");
-       	 	System.out.println("             7- revenir au dossier racine");
-       	 	System.out.println("             8- quitter");
+		    }
+		}
+		System.out.println("\n\nQue faire : 1- Créer un fichier");
+		System.out.println("            2- Créer un répertoire");
+       	 	System.out.println("            3- lire un fichier");
+       	 	System.out.println("            4- écrire dans un fichier");
+       	 	System.out.println("            5- accéder à un dossier");
+       	 	System.out.println("            6- supprimer un fichier ou un dossier");
+       	 	System.out.println("            7- revenir au dossier racine");
+       	 	System.out.println("            8- quitter");
 		num = sc.nextLine();
 
 		if(num.equals("1")){
@@ -128,6 +139,7 @@ public class Client {
 		    name = sc.nextLine();
 		    current.open_directory(dH,name);
 		    current = dH.value;
+		    current.init();
 
 		}else if(num.equals("6")){
 		    System.out.print("Nom du fichier ou du dossier à supprimer : ");

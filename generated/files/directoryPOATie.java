@@ -49,19 +49,14 @@ public class directoryPOATie
 			return super._default_POA();
 		}
 	}
-	public int list_files(files.file_listHolder l)
-	{
-		return _delegate.list_files(l);
-	}
-
-	public int number_of_file()
-	{
-		return _delegate.number_of_file();
-	}
-
 	public void delete_file(java.lang.String name) throws files.no_such_file
 	{
 _delegate.delete_file(name);
+	}
+
+	public void open_directory(files.directoryHolder f, java.lang.String name) throws files.no_such_file,files.invalid_type_file
+	{
+_delegate.open_directory(f,name);
 	}
 
 	public java.lang.String name()
@@ -69,9 +64,24 @@ _delegate.delete_file(name);
 		return _delegate.name();
 	}
 
+	public int number_of_file()
+	{
+		return _delegate.number_of_file();
+	}
+
+	public int list_files(files.file_listHolder l)
+	{
+		return _delegate.list_files(l);
+	}
+
 	public void open_regular_file(files.regular_fileHolder r, java.lang.String name, files.mode m) throws files.no_such_file,files.invalid_type_file
 	{
 _delegate.open_regular_file(r,name,m);
+	}
+
+	public void init()
+	{
+_delegate.init();
 	}
 
 	public void create_regular_file(files.regular_fileHolder r, java.lang.String name) throws files.already_exist
@@ -82,11 +92,6 @@ _delegate.create_regular_file(r,name);
 	public void create_directory(files.directoryHolder f, java.lang.String name) throws files.already_exist
 	{
 _delegate.create_directory(f,name);
-	}
-
-	public void open_directory(files.directoryHolder f, java.lang.String name) throws files.no_such_file,files.invalid_type_file
-	{
-_delegate.open_directory(f,name);
 	}
 
 }

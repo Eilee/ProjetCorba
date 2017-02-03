@@ -18,4 +18,5 @@ public interface directoryOperations
 	void create_directory(files.directoryHolder f, java.lang.String name) throws files.already_exist;
 	void delete_file(java.lang.String name) throws files.no_such_file;
 	int list_files(files.file_listHolder l);
+	void init();
 }

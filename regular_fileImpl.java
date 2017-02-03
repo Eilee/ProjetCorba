@@ -44,8 +44,8 @@ public class regular_fileImpl extends regular_filePOA{
 					fis = new FileInputStream(f);
 					offset = 0;
 				}else if(m.equals(mode.write_append)){
-					fos = new FileOutputStream(f);
-					//offset = taille fichier
+					fos = new FileOutputStream(f,true);
+					offset = (int)f.length();
 				}else if(m.equals(mode.write_trunc)){
 					fos = new FileOutputStream(f);
 					offset = 0;
@@ -68,29 +68,31 @@ public class regular_fileImpl extends regular_filePOA{
 		int n = 0;
 		
 		try{
-			while((n = fis.read(buf,offset,1)) >= 0 && nbRead < size){
+			while((n = fis.read(buf)) >= 0 && nbRead < size){
 				data.value += (char) buf[0];
 				nbRead++;
 				offset++;
 			}
-			if(nbRead < size)throw new end_of_file();
+			//if(nbRead < size)throw new end_of_file();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 		
+		open = false;
 		return nbRead;
 	}
 
     	public int write(int size, String data)throws invalid_operation{
 		if(fos == null)throw new invalid_operation();
-
 		byte[] buf = data.getBytes();
+
 		try{
-			fos.write(buf,offset,data.length());
+			fos.write(buf);
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-
+		
+		open = false;
     		return data.length();
 	}
 

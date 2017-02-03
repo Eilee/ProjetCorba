@@ -34,7 +34,7 @@ public class file_listImpl extends file_listPOA{
 	}
 
 	public boolean next_one(directory_entryHolder e){
-		if(pos>list_of_directory_entry.size())return false;
+		if(pos>=list_of_directory_entry.size())return false;
 		e.value = list_of_directory_entry.get(pos);
 		pos++;
 		return true;

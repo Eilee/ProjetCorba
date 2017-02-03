@@ -62,6 +62,8 @@ module files {
         raises (no_such_file);
 
     long list_files(inout file_list l);
+    
+    void init();
   };
 
 };

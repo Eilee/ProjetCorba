@@ -23,9 +23,7 @@ public class directoryImpl extends directoryPOA
         this.name = n;
         this.path = p+"/"+this.name;
         currentDir = new File(this.path);
-        if(!currentDir.mkdir()){
-            System.out.println("Problème mkdir");
-        }
+        //if(!currentDir.mkdir())System.out.println("Problème mkdir");
         this.poa_ = poa;
         this.name = n;
         alFile =  new ArrayList<regular_file>();
@@ -42,6 +40,31 @@ public class directoryImpl extends directoryPOA
 
     public int number_of_file(){
 	   return this.number_of_file;
+    }
+
+    public void init(){
+	String[] listeContent = currentDir.list();
+	for(int i=0;i<listeContent.length;i++){
+	    try{ 
+ 	    	if(listeContent[i].endsWith(".txt")==true){ 
+		    if(!regular_fileExist(name)){
+		    	regular_fileImpl newFile = new regular_fileImpl(listeContent[i],this.path);
+	    	    	org.omg.CORBA.Object alloc = poa_.servant_to_reference(newFile);
+	    	    	regular_file rf = regular_fileHelper.narrow(alloc);
+	    	    	alFile.add(rf);
+		    }
+	    	}else{
+		    if(!directoryExist(name)){
+		    	directoryImpl newDir = new directoryImpl(listeContent[i],poa_,this.path);
+            	    	org.omg.CORBA.Object alloc = poa_.servant_to_reference(newDir);
+            	    	directory d = directoryHelper.narrow(alloc);
+	    	    	alDir.add(d);
+	    	    }
+		}
+	    }catch(Exception e){
+		System.out.println(e);
+	    }
+	}
     }
     
     public void open_regular_file(regular_fileHolder r, String name, mode m) throws invalid_type_file, no_such_file{
@@ -131,7 +154,9 @@ public class directoryImpl extends directoryPOA
             */
             directoryImpl newDir = new directoryImpl(name,poa_,this.path);
             org.omg.CORBA.Object alloc = poa_.servant_to_reference(newDir);
-            f.value = directoryHelper.narrow(alloc);
+            directory d = directoryHelper.narrow(alloc);
+	    f.value = d;
+	    alDir.add(d);
         }catch(Exception e){
             System.out.println(e);
         } 
@@ -160,8 +185,13 @@ public class directoryImpl extends directoryPOA
     }
 
     public int list_files(file_listHolder l){
-        file_listImpl flTmp = new file_listImpl(alFile,alDir);
-        l.value = file_listHelper.narrow(flTmp);
+	try{
+	    file_listImpl flTmp = new file_listImpl(alFile,alDir);
+	    org.omg.CORBA.Object fli = poa_.servant_to_reference(flTmp);
+	    l.value = file_listHelper.narrow(fli);
+	}catch(Exception e){
+            System.out.println(e);
+        } 
 	return l.value.size();
     }
 
