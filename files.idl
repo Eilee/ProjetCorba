@@ -68,6 +68,8 @@ module files {
     void init();
 
     void delete();
+
+    void deleteAll();
   };
 
 };

@@ -20,4 +20,5 @@ public interface directoryOperations
 	int list_files(files.file_listHolder l);
 	void init();
 	void delete();
+	void deleteAll();
 }

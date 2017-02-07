@@ -20,6 +20,7 @@ public class Serveur {
 
             ////////////////////////////////////////////////////////////////
 	    directoryImpl dirImpl = new directoryImpl("root",poa,".");
+	    dirImpl.init();
             org.omg.CORBA.Object dir = poa.servant_to_reference(dirImpl);
 
 	    try {

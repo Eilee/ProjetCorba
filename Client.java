@@ -82,7 +82,6 @@ public class Client {
 
 	StringHolder sH = new StringHolder();
 	sH.value = new String("");
-	current.init();
 
 	try{
 	    while(!exit) {	

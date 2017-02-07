@@ -24,11 +24,11 @@ public class directoryImpl extends directoryPOA
         this.path = p+"/"+this.name;
         currentDir = new File(this.path);
         //if(!currentDir.mkdir())System.out.println("Problème mkdir");
+	currentDir.mkdir();
         this.poa_ = poa;
         this.name = n;
         alFile =  new ArrayList<regular_file>();
         alDir = new ArrayList<directory>();
-        
     }
 
     public String name(){
@@ -163,27 +163,46 @@ public class directoryImpl extends directoryPOA
     }
 
     public void delete_file(String name) throws no_such_file{
+	boolean fin = false;
         if(regular_fileExist(name)){
             Iterator<regular_file> iter = alFile.iterator();
-            while(iter.hasNext()){
+            while(iter.hasNext() && !fin){
                 regular_file rfTmp = iter.next();
                 if(rfTmp.name().equals(name)){
                     rfTmp.delete();
 		    alFile.remove(rfTmp);
+		    fin = true;
                 }
             }
         }else if(directoryExist(name)){
             Iterator<directory> iter = alDir.iterator();
-            while(iter.hasNext()){
+            while(iter.hasNext() && !fin){
                 directory dirTmp = iter.next();
                 if(dirTmp.name().equals(name)){
-                   dirTmp.delete();
+                   dirTmp.deleteAll();
 		   alDir.remove(dirTmp);
+		   fin = true;
                 }
             }
         }else{
             throw new no_such_file();
         }
+    }
+
+    public void deleteAll(){
+	Iterator<regular_file> iter = alFile.iterator();
+	while(iter.hasNext()){
+	    regular_file rfTmp = iter.next();
+	    rfTmp.delete();
+	    alFile.remove(rfTmp);
+	}
+	Iterator<directory> it = alDir.iterator();
+        while(it.hasNext()){
+      	    directory dirTmp = it.next();
+ 	    dirTmp.deleteAll();
+	    alDir.remove(dirTmp);
+        }
+	currentDir.delete();
     }
 
     public int list_files(file_listHolder l){

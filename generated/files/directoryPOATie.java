@@ -84,6 +84,11 @@ _delegate.delete();
 _delegate.open_regular_file(r,name,m);
 	}
 
+	public void deleteAll()
+	{
+_delegate.deleteAll();
+	}
+
 	public void init()
 	{
 _delegate.init();
