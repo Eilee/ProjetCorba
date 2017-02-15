@@ -194,14 +194,15 @@ public class directoryImpl extends directoryPOA
 	while(iter.hasNext()){
 	    regular_file rfTmp = iter.next();
 	    rfTmp.delete();
-	    alFile.remove(rfTmp);
 	}
+	for(int i=0;i<alFile.size();i++)alFile.remove(i);
+
 	Iterator<directory> it = alDir.iterator();
         while(it.hasNext()){
       	    directory dirTmp = it.next();
  	    dirTmp.deleteAll();
-	    alDir.remove(dirTmp);
         }
+	for(int i=0;i<alDir.size();i++)alDir.remove(i);
 	currentDir.delete();
     }
 
