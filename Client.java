@@ -129,7 +129,16 @@ public class Client {
 		    name = sc.nextLine();
 		    System.out.print("Texte à écrire dans le fichier : ");
 		    contenu = sc.nextLine();
-		    current.open_regular_file(rfH,name,mode.write_append);
+		    String reponse = "";
+		    while(!reponse.equals("Y") && !reponse.equals("N")){
+		        System.out.print("Voulez écraser le contenu du fichier(Y/N) ? Dans le cas contraire le texte sera écris à la suite : ");
+			reponse = sc.nextLine();
+		    }
+		    if(reponse.equals("Y")){
+			current.open_regular_file(rfH,name,mode.write_trunc);
+		    }else{
+			current.open_regular_file(rfH,name,mode.write_append);
+		    }
 		    nb = rfH.value.write(256,contenu);
 		    System.out.println(nb+" caractères écrits : "+contenu);
 
