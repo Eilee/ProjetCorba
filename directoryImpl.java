@@ -23,7 +23,6 @@ public class directoryImpl extends directoryPOA
         this.name = n;
         this.path = p+"/"+this.name;
         currentDir = new File(this.path);
-        //if(!currentDir.mkdir())System.out.println("Problème mkdir");
 	currentDir.mkdir();
         this.poa_ = poa;
         this.name = n;
@@ -42,6 +41,7 @@ public class directoryImpl extends directoryPOA
 	   return this.number_of_file;
     }
 
+    //Initialisation des listes de fichiers et de dossiers avec ceux déjà existant
     public void init(){
 	String[] listeContent = currentDir.list();
 	for(int i=0;i<listeContent.length;i++){
@@ -67,6 +67,7 @@ public class directoryImpl extends directoryPOA
 	}
     }
     
+    //Ouverture d'un fichier
     public void open_regular_file(regular_fileHolder r, String name, mode m) throws invalid_type_file, no_such_file{
         if(regular_fileExist(name)){
             Iterator<regular_file> iter = alFile.iterator();
@@ -84,6 +85,7 @@ public class directoryImpl extends directoryPOA
         }
     }
 
+    //Ouverture d'un dossier
     public void open_directory(directoryHolder f, String name) throws invalid_type_file, no_such_file{
         if(directoryExist(name)){
             Iterator<directory> iter = alDir.iterator();
@@ -113,9 +115,8 @@ public class directoryImpl extends directoryPOA
         return false;
     }
 
-    /*
-     *  Parcour la liste de directoryImpl pour verifier si le directory existe
-    */
+    
+    //Parcour la liste de directoryImpl pour verifier si le directory existe
     public boolean directoryExist(String name){
         Iterator<directory> iter = alDir.iterator();
         while(iter.hasNext()){
@@ -126,14 +127,12 @@ public class directoryImpl extends directoryPOA
         return false;
     }
 
+    //Création et allocation du nouveau fichier
     public void create_regular_file(regular_fileHolder r, String name) throws already_exist{
         try{
           
             if(regular_fileExist(name)){ throw new already_exist();}
             if(directoryExist(name)){ throw new already_exist();}
-            /*
-             *  Création et allocation du nouveau fichier.
-            */
             regular_fileImpl newFile = new regular_fileImpl(name,this.path);
             org.omg.CORBA.Object alloc = poa_.servant_to_reference(newFile);
             regular_file rf = regular_fileHelper.narrow(alloc);
@@ -145,13 +144,11 @@ public class directoryImpl extends directoryPOA
         }
     }
 
+    //Création et allocation du nouveau directory
     public void create_directory(directoryHolder f, String name) throws already_exist{
         try{
             if(directoryExist(name)){ throw new already_exist();}
             if(regular_fileExist(name)){ throw new already_exist();}
-            /*
-             *  Création et allocation du nouveau directory.
-            */
             directoryImpl newDir = new directoryImpl(name,poa_,this.path);
             org.omg.CORBA.Object alloc = poa_.servant_to_reference(newDir);
             directory d = directoryHelper.narrow(alloc);
@@ -162,6 +159,7 @@ public class directoryImpl extends directoryPOA
         } 
     }
 
+    //Suppresion d'un fichier ou d'un dossier
     public void delete_file(String name) throws no_such_file{
 	boolean fin = false;
         if(regular_fileExist(name)){
@@ -189,6 +187,7 @@ public class directoryImpl extends directoryPOA
         }
     }
 
+    //Suppression de tous ce qui est contenu dans un dossier
     public void deleteAll(){
 	Iterator<regular_file> iter = alFile.iterator();
 	while(iter.hasNext()){
@@ -206,6 +205,7 @@ public class directoryImpl extends directoryPOA
 	currentDir.delete();
     }
 
+    //Obtient la liste des fichiers et des dossier du répertoire
     public int list_files(file_listHolder l){
 	try{
 	    file_listImpl flTmp = new file_listImpl(alFile,alDir);
@@ -217,6 +217,7 @@ public class directoryImpl extends directoryPOA
 	return l.value.size();
     }
 
+    //Supprime le répertoire
     public void delete(){
 	currentDir.delete();
     }

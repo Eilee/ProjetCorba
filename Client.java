@@ -66,20 +66,16 @@ public class Client {
 
 	Scanner sc = new Scanner(System.in);
 	boolean exit = false;
-	int nb;
-	String name,num,contenu;
+	int nb, num;
+	String name, numString, contenu;
 	directory current = dir;
 
 	file_listHolder flH = new file_listHolder();
-
 	directory_entryHolder deH = new directory_entryHolder();
 	deH.value = new directory_entry();
 	deH.value.type = file_type.regular_file_type;
-
 	directoryHolder dH = new directoryHolder();
-
 	regular_fileHolder rfH = new regular_fileHolder();
-
 	StringHolder sH = new StringHolder();
 	sH.value = new String("");
 
@@ -94,78 +90,103 @@ public class Client {
 			System.out.print("    ");
 		    }
 		}
+
+		//Menu affiché par le client
 		System.out.println("\n\nQue faire : 1- Créer un fichier");
 		System.out.println("            2- Créer un répertoire");
        	 	System.out.println("            3- lire un fichier");
        	 	System.out.println("            4- écrire dans un fichier");
-       	 	System.out.println("            5- accéder à un dossier");
-       	 	System.out.println("            6- supprimer un fichier ou un dossier");
-       	 	System.out.println("            7- revenir au dossier racine");
+       	 	System.out.println("            5- accéder à un répertoire");
+       	 	System.out.println("            6- supprimer un fichier ou un répertoire");
+       	 	System.out.println("            7- revenir au répertoire racine");
        	 	System.out.println("            8- quitter");
-		num = sc.nextLine();
 
-		if(num.equals("1")){
-		    name = "";
-		    while(name.length()<5 || !name.substring(name.length()-4,name.length()).equals(".txt")){
-		    	System.out.print("Nom du fichier (*.txt) : ");
+		numString = sc.nextLine();
+		char numChar = numString.charAt(0);
+		if(numString.length() >1)numChar = '*';
+
+		//Liste des actions possibles en fonction du choix du client
+		switch(numChar){
+
+		    //Création d'un fichier
+		    case '1':
+			name = "";
+		    	while(name.length()<5 || !name.substring(name.length()-4,name.length()).equals(".txt")){
+		    	    System.out.print("Nom du fichier (*.txt) : ");
+		    	    name = sc.nextLine();
+		    	}
+		    	current.create_regular_file(rfH,name);
+			break;
+
+		    //Création d'un répertoire
+		    case '2':
+			 System.out.print("Nom du répertoire : ");
 		    	name = sc.nextLine();
-		    }
-		    current.create_regular_file(rfH,name);
+		    	current.create_directory(dH,name);
+			break;
 
-		}else if(num.equals("2")){
-		    System.out.print("Nom du répertoire : ");
-		    name = sc.nextLine();
-		    current.create_directory(dH,name);
+		    //Lecture d'un fichier
+		    case '3':
+			System.out.print("Nom du fichier : ");
+		    	name = sc.nextLine();
+		    	current.open_regular_file(rfH,name,mode.read_only);
+		    	nb = rfH.value.read(256, sH);
+		    	System.out.println(nb+" caractères lues : "+sH.value);
+			break;
 
-		}else if(num.equals("3")){
-		    System.out.print("Nom du fichier : ");
-		    name = sc.nextLine();
-		    current.open_regular_file(rfH,name,mode.read_only);
-		    nb = rfH.value.read(256, sH);
-		    System.out.println(nb+" caractères lues : "+sH.value);
+		    //Ecriture dans un fichier
+		    case '4':
+			System.out.print("Nom du fichier : ");
+		    	name = sc.nextLine();
+		    	System.out.print("Texte à écrire dans le fichier : ");
+		    	contenu = sc.nextLine();
+		    	String reponse = "";
+		    	while(!reponse.equals("Y") && !reponse.equals("N")){
+		    	    System.out.print("Voulez écraser le contenu du fichier(Y/N) ? Dans le cas contraire le texte sera écris à la suite : ");
+			    reponse = sc.nextLine();
+		    	}
+		    	if(reponse.equals("Y")){
+			    current.open_regular_file(rfH,name,mode.write_trunc);
+		    	}else{
+			    current.open_regular_file(rfH,name,mode.write_append);
+		    	}
+		    	nb = rfH.value.write(256,contenu);
+		    	System.out.println(nb+" caractères écrits : "+contenu);
+			break;
 
-		}else if(num.equals("4")){
-		    System.out.print("Nom du fichier : ");
-		    name = sc.nextLine();
-		    System.out.print("Texte à écrire dans le fichier : ");
-		    contenu = sc.nextLine();
-		    String reponse = "";
-		    while(!reponse.equals("Y") && !reponse.equals("N")){
-		        System.out.print("Voulez écraser le contenu du fichier(Y/N) ? Dans le cas contraire le texte sera écris à la suite : ");
-			reponse = sc.nextLine();
-		    }
-		    if(reponse.equals("Y")){
-			current.open_regular_file(rfH,name,mode.write_trunc);
-		    }else{
-			current.open_regular_file(rfH,name,mode.write_append);
-		    }
-		    nb = rfH.value.write(256,contenu);
-		    System.out.println(nb+" caractères écrits : "+contenu);
+		    //Accès au dossier
+		    case '5':
+			System.out.print("Nom du dossier : ");
+		    	name = sc.nextLine();
+		    	current.open_directory(dH,name);
+		    	current = dH.value;
+		    	current.init();
+			break;
 
-		}else if(num.equals("5")){
-		    System.out.print("Nom du dossier : ");
-		    name = sc.nextLine();
-		    current.open_directory(dH,name);
-		    current = dH.value;
-		    current.init();
+		    //Suppression d'un fichier ou d'un dossier
+		    case '6':
+			System.out.print("Nom du fichier ou du dossier à supprimer : ");
+		    	name = sc.nextLine();
+		    	current.delete_file(name);
+			break;
 
-		}else if(num.equals("6")){
-		    System.out.print("Nom du fichier ou du dossier à supprimer : ");
-		    name = sc.nextLine();
-		    current.delete_file(name);
+		    //Accès au dossier racine
+		    case '7':
+			current = dir;
+			break;
 
-		}else if(num.equals("7")){
-		    current = dir;
+		    //Arrêt
+		    case '8':
+		    	exit = true;
+			break;
 
-		}else if(num.equals("8")){
-		    exit = true;
-
+		    //Relance du menu
+		    default:
+			break;
 		}
 	    }
 	}catch(end_of_file e){
 		System.out.println("Erreur : end_of_file");
-	//}catch(invalid_offset e){
-	//	System.out.println("Erreur : invalid_offset");
 	}catch(invalid_operation e){
 		System.out.println("Erreur : invalid_operation");
 	}catch(invalid_type_file e){

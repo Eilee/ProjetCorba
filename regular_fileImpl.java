@@ -36,6 +36,7 @@ public class regular_fileImpl extends regular_filePOA{
 		return this.offset;
 	}
 
+	//Ouvre le fichier ave le mode sélectionné
 	public void open(mode m){
 		if(!open){
 			try{
@@ -63,6 +64,7 @@ public class regular_fileImpl extends regular_filePOA{
 		}
 	}
 
+	//Lit dans le fichier
 	public int read(int size, StringHolder data)throws end_of_file,invalid_operation{
 		if(fis == null)throw new invalid_operation();
 		byte[] buf = new byte[1];
@@ -83,6 +85,7 @@ public class regular_fileImpl extends regular_filePOA{
 		return nbRead;
 	}
 
+	//Ecrit dans un fichier
     	public int write(int size, String data)throws invalid_operation{
 		if(fos == null)throw new invalid_operation();
 		byte[] buf = data.getBytes();
@@ -97,11 +100,13 @@ public class regular_fileImpl extends regular_filePOA{
     		return data.length();
 	}
 
+	//Change la valeur de l'offset
     	public void seek(int new_offset)throws invalid_offset,invalid_operation{
 		if(new_offset<0 || new_offset > f.length())throw new invalid_offset();
 		offset = new_offset;
 	}
 
+	//Ferme le fichier
     	public void close(){
 		try{
 			if(fis != null)
@@ -117,6 +122,7 @@ public class regular_fileImpl extends regular_filePOA{
 		}	
 	}
 
+	//Supprime le fichier
     	public void delete(){
 		close();
 		f.delete();

@@ -10,6 +10,7 @@ public class file_listImpl extends file_listPOA{
 	private ArrayList<directory_entry> list_of_directory_entry;
 	private int pos;
 
+	//Remplie la liste de fichiers et de répertoires avec les listes en paramètres
 	public file_listImpl(ArrayList<regular_file> files, ArrayList<directory> directories){
 		list_of_directory_entry = new ArrayList<directory_entry>();
 		pos = 0;
@@ -33,6 +34,7 @@ public class file_listImpl extends file_listPOA{
 		}
 	}
 
+	//Renvoie l'élément suivant de laliste ainsi qu'un booléen indiquant si un élément a été trouvé
 	public boolean next_one(directory_entryHolder e){
 		if(pos>=list_of_directory_entry.size())return false;
 		e.value = list_of_directory_entry.get(pos);
@@ -40,6 +42,7 @@ public class file_listImpl extends file_listPOA{
 		return true;
 	}
 
+	//Renvoie la taille de la liste
 	public int size(){
 		return list_of_directory_entry.size();
 	}
